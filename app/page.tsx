@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { TaskProvider, useTaskContext } from "@/store/task-context";
 import { TaskModal } from "@/components/task-modal";
+import { TaskFilters } from "@/components/task-filters";
 
 function TaskManagerContent() {
   const {
@@ -21,6 +22,8 @@ function TaskManagerContent() {
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const tasks = getFilteredAndSortedTasks();
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-6">
@@ -43,8 +46,12 @@ function TaskManagerContent() {
             Add Task
           </Button>
 
+          <div className="mb-6">
+            <TaskFilters />
+          </div>
+
           <div className="flex flex-col gap-2">
-            {state.tasks.map((task) => (
+            {tasks.map((task) => (
               <div
                 key={task.id}
                 className="bg-white p-4 rounded-lg shadow-md flex items-center justify-between gap-4"
