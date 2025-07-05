@@ -7,6 +7,9 @@ import { TaskProvider, useTaskContext } from "@/store/task-context";
 import { TaskModal } from "@/components/task-modal";
 import { TaskFilters } from "@/components/task-filters";
 import { DeleteDialog } from "@/components/delete-dialog";
+import { useIsMobile } from "@/hooks/use-mobile";
+import TaskTable from "@/components/task-table";
+import MobileTaskList from "@/components/mobile-task-list";
 
 function TaskManagerContent() {
   const {
@@ -18,32 +21,15 @@ function TaskManagerContent() {
     addTask,
   } = useTaskContext();
 
+  const isMobile = useIsMobile();
+
   const handleAddTask = (data: any) => {
     addTask(data);
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [deleteTaskId, setDeleteTaskId] = useState<string | null>(null);
 
   const tasks = getFilteredAndSortedTasks();
-
-  const handleDelete = (taskId: string) => {
-    setDeleteTaskId(taskId);
-    setIsDeleteDialogOpen(true);
-  };
-
-  const handleConfirmDelete = () => {
-    if (deleteTaskId) {
-      deleteTask(deleteTaskId);
-      setDeleteTaskId(null);
-    }
-  };
-
-  const handleCloseDeleteDialog = () => {
-    setIsDeleteDialogOpen(false);
-    setDeleteTaskId(null);
-  };
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-6">
@@ -70,39 +56,18 @@ function TaskManagerContent() {
             <TaskFilters />
           </div>
 
-          <div className="flex flex-col gap-2">
-            {tasks.map((task) => (
-              <div
-                key={task.id}
-                className="bg-white p-4 rounded-lg shadow-md flex items-center justify-between gap-4"
-              >
-                <div className="flex-1">
-                  <h2 className="text-lg font-semibold">{task.title}</h2>
-                  <p className="text-sm text-gray-600">{task.description}</p>
-                </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => handleDelete(task.id)}
-                  className="h-8 w-8 text-red-600 hover:text-red-700"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
-            ))}
-          </div>
-          <TaskModal
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-            onSubmit={handleAddTask}
-            mode="add"
-          />
-          <DeleteDialog
-            isOpen={isDeleteDialogOpen}
-            onClose={handleCloseDeleteDialog}
-            onConfirm={handleConfirmDelete}
-          />
+          {isMobile ? (
+            <MobileTaskList tasks={tasks} />
+          ) : (
+            <TaskTable tasks={tasks} />
+          )}
         </div>
+        <TaskModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={handleAddTask}
+          mode="add"
+        />
       </div>
     </div>
   );
