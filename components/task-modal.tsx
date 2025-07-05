@@ -89,14 +89,6 @@ export function TaskModal({
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
             {mode === "add" ? "Add Task" : "Edit Task"}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={onClose}
-              className="h-6 w-6"
-            >
-              <X className="h-4 w-4" />
-            </Button>
           </DialogTitle>
         </DialogHeader>
 
@@ -143,7 +135,7 @@ export function TaskModal({
                   handleInputChange("status", value)
                 }
               >
-                <SelectTrigger>
+                <SelectTrigger className="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -162,7 +154,7 @@ export function TaskModal({
                 handleInputChange("priority", value)
               }
             >
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -178,7 +170,7 @@ export function TaskModal({
               type="button"
               variant="outline"
               onClick={onClose}
-              className="flex-1 bg-transparent"
+              className="flex-1 bg-transparent border-custom-red text-custom-red"
             >
               Cancel
             </Button>

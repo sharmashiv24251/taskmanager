@@ -27,14 +27,6 @@ export function DeleteDialog({
       <DialogContent className="sm:max-w-[400px] p-6">
         <div className="flex items-start justify-between mb-6">
           <h2 className="text-lg font-medium leading-relaxed pr-4">{title}</h2>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onClose}
-            className="h-6 w-6 flex-shrink-0"
-          >
-            <X className="h-4 w-4" />
-          </Button>
         </div>
 
         <div className="flex gap-3">
@@ -42,7 +34,7 @@ export function DeleteDialog({
             type="button"
             variant="outline"
             onClick={onClose}
-            className="flex-1 bg-transparent border-2 border-blue-500 text-blue-600 hover:bg-blue-50"
+            className="flex-1 bg-transparent border-2 border-custom-red text-custom-red hover:bg-blue-50"
           >
             Cancel
           </Button>
