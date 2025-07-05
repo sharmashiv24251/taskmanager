@@ -1,15 +1,14 @@
 "use client";
 
 import { useState, Suspense } from "react";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
 
 import { TaskModal } from "@/components/task-modal";
-import { TaskFilters } from "@/components/task-filters";
 import { TaskTable } from "@/components/task-table";
 import { MobileTaskList } from "@/components/mobile-task-list";
+
 import { useIsMobile } from "@/hooks/use-mobile";
 import { TaskProvider, useTaskContext } from "@/store/task-context";
+import { Header } from "@/components/header";
 
 function TaskManagerContent() {
   const { addTask } = useTaskContext();
@@ -20,33 +19,17 @@ function TaskManagerContent() {
     addTask(data);
   };
 
+  const handleOpenAddModal = () => {
+    setIsModalOpen(true);
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-          <div className="flex items-center gap-4">
-            <div className="bg-gray-800 text-white px-4 py-2 rounded-lg font-bold">
-              Studio137
-              <div className="text-xs">LOGO</div>
-            </div>
-            <h1 className="text-2xl font-bold">Tasks</h1>
-          </div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header Component */}
+      <Header onAddTask={handleOpenAddModal} />
 
-          <Button
-            onClick={() => setIsModalOpen(true)}
-            className="bg-red-700 hover:bg-red-800 flex items-center gap-2"
-          >
-            <Plus className="h-4 w-4" />
-            Add Task
-          </Button>
-        </div>
-
-        {/* Filters */}
-        <div className="mb-6">
-          <TaskFilters />
-        </div>
-
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto p-4 md:p-6">
         {/* Task List */}
         {isMobile ? <MobileTaskList /> : <TaskTable />}
 

@@ -113,6 +113,7 @@ export function MobileTaskList() {
             <div
               key={task.id}
               className={`${!isLastTask ? "border-b border-custom-red" : ""}`}
+              onClick={() => toggleExpanded(task.id)}
             >
               {/* Task Header - Always Visible */}
               <div className="p-4">

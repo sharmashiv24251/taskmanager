@@ -101,7 +101,7 @@ export function TaskTable() {
       <div className="border-2 border-custom-red rounded-lg overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="bg-red-50 border-b border-red-200 hover:bg-red-50">
+            <TableRow className="bg-red-50 border-b border-red-200 ">
               <TableHead className="w-16 text-custom-red font-semibold">
                 SL.No
               </TableHead>
@@ -130,9 +130,7 @@ export function TaskTable() {
               <TableRow
                 key={task.id}
                 className={`border-b border-red-100 ${
-                  (index + 1) % 2 === 0
-                    ? "bg-red-50 hover:bg-red-100"
-                    : "bg-white hover:bg-gray-50"
+                  (index + 1) % 2 === 0 ? "bg-red-50" : "bg-white"
                 }`}
               >
                 <TableCell className="font-medium">{index + 1}</TableCell>
