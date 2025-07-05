@@ -2,10 +2,11 @@
 
 import { useState, Suspense } from "react";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import { TaskProvider, useTaskContext } from "@/store/task-context";
 import { TaskModal } from "@/components/task-modal";
 import { TaskFilters } from "@/components/task-filters";
+import { DeleteDialog } from "@/components/delete-dialog";
 
 function TaskManagerContent() {
   const {
@@ -22,8 +23,27 @@ function TaskManagerContent() {
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [deleteTaskId, setDeleteTaskId] = useState<string | null>(null);
 
   const tasks = getFilteredAndSortedTasks();
+
+  const handleDelete = (taskId: string) => {
+    setDeleteTaskId(taskId);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (deleteTaskId) {
+      deleteTask(deleteTaskId);
+      setDeleteTaskId(null);
+    }
+  };
+
+  const handleCloseDeleteDialog = () => {
+    setIsDeleteDialogOpen(false);
+    setDeleteTaskId(null);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-6">
@@ -61,10 +81,12 @@ function TaskManagerContent() {
                   <p className="text-sm text-gray-600">{task.description}</p>
                 </div>
                 <Button
-                  variant="destructive"
-                  onClick={() => deleteTask(task.id)}
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => handleDelete(task.id)}
+                  className="h-8 w-8 text-red-600 hover:text-red-700"
                 >
-                  Delete
+                  <Trash2 className="h-4 w-4" />
                 </Button>
               </div>
             ))}
@@ -74,6 +96,11 @@ function TaskManagerContent() {
             onClose={() => setIsModalOpen(false)}
             onSubmit={handleAddTask}
             mode="add"
+          />
+          <DeleteDialog
+            isOpen={isDeleteDialogOpen}
+            onClose={handleCloseDeleteDialog}
+            onConfirm={handleConfirmDelete}
           />
         </div>
       </div>
