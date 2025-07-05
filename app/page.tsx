@@ -4,6 +4,7 @@ import { useState, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { TaskProvider, useTaskContext } from "@/store/task-context";
+import { TaskModal } from "@/components/task-modal";
 
 function TaskManagerContent() {
   const {
@@ -19,6 +20,8 @@ function TaskManagerContent() {
     addTask(data);
   };
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-6">
       <div className="max-w-7xl mx-auto">
@@ -32,7 +35,10 @@ function TaskManagerContent() {
             <h1 className="text-2xl font-bold">Tasks</h1>
           </div>
 
-          <Button className="bg-custom-red hover:bg-red-800 flex items-center gap-2">
+          <Button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-custom-red hover:bg-red-800 flex items-center gap-2"
+          >
             <Plus className="h-4 w-4" />
             Add Task
           </Button>
@@ -56,6 +62,12 @@ function TaskManagerContent() {
               </div>
             ))}
           </div>
+          <TaskModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            onSubmit={handleAddTask}
+            mode="add"
+          />
         </div>
       </div>
     </div>
